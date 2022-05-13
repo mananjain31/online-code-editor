@@ -13,7 +13,7 @@ export const EditorMain = () => {
     return (
         <textarea
             placeholder='Cook Your Recipe here ... 👨🏽‍🍳'
-            className='bg-editor-bg flex-1 px-desktop-x py-desktop-y outline-none'
+            className='bg-editor-bg flex-1 px-desktop-x py-desktop-y outline-none font-editor font-extrabold'
             value={code}
             onChange={updateCode}
         ></textarea>

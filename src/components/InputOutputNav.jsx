@@ -23,6 +23,10 @@ export const InputOutputNav = () => {
                     className={`${selectedTab === 'output' ? 'bg-inherit' : ''}`}
                     onClick={() => dispatch(editorActions.setSelectedTab('output'))}
                 >Output</ButtonTw>
+                <ButtonTw
+                    className={`${selectedTab === 'error' ? 'bg-inherit' : ''}`}
+                    onClick={() => dispatch(editorActions.setSelectedTab('error'))}
+                >Error</ButtonTw>
             </div>
 
             {/* Icons */}

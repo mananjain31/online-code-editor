@@ -7,7 +7,7 @@ export const EditorPage = () => {
 
 
     return (
-        <div className='text-fg flex w-full h-[100vh]'>
+        <div className='text-fg flex sm:flex-row flex-col w-full h-[100vh]'>
             <Editor />
             <InputOutput />
         </div>

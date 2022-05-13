@@ -1,14 +1,14 @@
 import React from 'react'
-import { EditorActions } from './EditorActions'
-import { EditorMain } from './EditorMain'
 import { EditorNav } from './EditorNav'
+import { EditorMain } from './EditorMain'
+import { EditorFooter } from './EditorFooter'
 
 export const Editor = () => {
     return (
-        <div className='h-full flex flex-col w-8/12'>
+        <div className='h-full flex flex-col sm:w-8/12'>
             <EditorNav />
             <EditorMain />
-            <EditorActions />
+            <EditorFooter />
         </div>
     )
 }

@@ -4,7 +4,7 @@ import { editorActions } from '../store/editor.slice';
 
 export const InputOutputMain = () => {
 
-    const { selectedTab, input, output } = useSelector(state => state.editor)
+    const { selectedTab, input, output, error } = useSelector(state => state.editor)
     const dispatch = useDispatch();
 
     const onChange = ev => {
@@ -18,10 +18,11 @@ export const InputOutputMain = () => {
 
     return (
         <textarea
-            className='px-desktop-x py-desktop-y bg-inherit flex-1 outline-none'
-            placeholder={selectedTab === 'input' ? 'Specify Input hereasd' : 'Output will be shown here'}
-            value={selectedTab === "input" ? input : output}
+            className={`px-desktop-x py-desktop-y bg-inherit flex-1 outline-none ${selectedTab === 'error' && 'text-red-200'}`}
+            placeholder={selectedTab === 'input' ? 'Specify Input here' : selectedTab === 'output' ? 'Output will be shown here' : 'No errors'}
+            value={selectedTab === "input" ? input : selectedTab === 'output' ? output : error}
             onChange={onChange}
+            readOnly={selectedTab === 'output'}
         ></textarea >
     )
 }

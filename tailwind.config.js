@@ -4,6 +4,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        "editor": ['Source Code Pro', 'monospace'],
+      },
       padding: {
         "desktop-x": "1.2rem",
         "desktop-y": "0.5rem",
