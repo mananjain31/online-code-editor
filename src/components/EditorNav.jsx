@@ -1,6 +1,10 @@
 import { Add, ContentCopy, Download, Save, Upload } from '@mui/icons-material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { copy } from '../helpers/copy'
+import { download } from '../helpers/download'
+import { upload } from '../helpers/upload'
+import { alertActions } from '../store/alert.slice'
 import { run } from '../store/editor.actions'
 import { editorActions, languages } from '../store/editor.slice'
 import { ButtonTw } from './Buttons'
@@ -18,11 +22,23 @@ export const EditorNav = () => {
         const { value } = ev.target
         dispatch(editorActions.setFileName(value))
     }
-
     const openNewFile = () => {
         var win = window.open("/", '_blank');
         win.focus();
     }
+    const onDownload = () => {
+        download(
+            editor.code, editor.fileName
+        )
+    }
+    const onUpload = () => {
+        upload(content => dispatch(editorActions.setCode(content)));
+    }
+    const onCopy = () => {
+        copy(editor.code);
+        dispatch(alertActions.openInfo("Code copied to clipboard"));
+    }
+
 
 
     return (
@@ -30,13 +46,13 @@ export const EditorNav = () => {
 
             {/* <div className='flex flex-wrap items-center gap-2'> */}
 
-            <ContentCopy titleAccess='Copy' className='cursor-pointer' />
+            <ContentCopy titleAccess='Copy Code' className='cursor-pointer' onClick={onCopy} />
 
 
-            <Download titleAccess='Download' className='cursor-pointer' />
+            <Download titleAccess='Download Code' className='cursor-pointer' onClick={onDownload} />
 
 
-            <Upload titleAccess='Upload' className='cursor-pointer' />
+            <Upload titleAccess='Upload Code' className='cursor-pointer' onClick={onUpload} />
 
             {
                 user.isLoggedIn ?
