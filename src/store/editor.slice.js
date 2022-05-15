@@ -62,11 +62,14 @@ export const editorSlice = createSlice({
         setFileName(state, action) {
             state.fileName = action.payload;
             if (state.fileName.indexOf(".") !== -1) {
-                state.selectedLanguage = state.fileName.split('.');
-                state.selectedLanguage.pop();
-                state.selectedLanguage = state.selectedLanguage.join('.');
+                state.fileName = state.fileName.split('.');
+                state.fileName.pop();
+                state.fileName = state.fileName.join('.');
             }
+            console.log(languages);
+            console.log(state.selectedLanguage);
             state.fileName += '.' + languages[state.selectedLanguage].extension;
+            state.fileName = state.fileName.replaceAll(" ", "");
         },
         setRunning(state, action) {
             state.running = !!action.payload;
