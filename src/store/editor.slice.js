@@ -1,8 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { formatCode } from '../helpers/formatCode';
 
 export const languages = {
-    'python3': 'Python 3',
-    'node': 'Node.js',
+    'python3': {
+        label: 'Python 3',
+        extension: 'py',
+    },
+    'node': {
+        label: 'Nodejs',
+        extension: 'js',
+    },
+    'java': {
+        label: 'Java',
+        extension: 'java',
+    }
 }
 
 
@@ -23,7 +34,8 @@ export const editorSlice = createSlice({
     initialState,
     reducers: {
         setCode(state, action) {
-            state.code = action.payload;
+            const code = formatCode(action.payload, state.selectedLanguage);
+            state.code = code;
         },
         setInput(state, action) {
             state.input = action.payload;
@@ -42,13 +54,8 @@ export const editorSlice = createSlice({
                 state.fileName = state.fileName.split('.');
                 state.fileName.pop();
                 state.fileName = state.fileName.join('.');
-                if (action.payload === 'python3') {
-                    state.fileName += '.py';
-                }
-                else if (action.payload === 'node') {
-                    state.fileName += '.js';
-                }
             }
+            state.fileName += '.' + languages[action.payload].extension;
 
             state.selectedLanguage = action.payload;
         },
@@ -59,12 +66,7 @@ export const editorSlice = createSlice({
                 state.selectedLanguage.pop();
                 state.selectedLanguage = state.selectedLanguage.join('.');
             }
-            if (state.selectedLanguage === 'python3') {
-                state.fileName += '.py';
-            }
-            else if (state.selectedLanguage === 'node') {
-                state.fileName += '.js';
-            }
+            state.fileName += '.' + languages[state.selectedLanguage].extension;
         },
         setRunning(state, action) {
             state.running = !!action.payload;

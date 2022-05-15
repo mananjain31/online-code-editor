@@ -51,7 +51,7 @@ export const EditorNav = () => {
                 <select name="language" id="language" className='bg-inherit outline-none w-full cursor-pointer' value={editor?.selectedLanguage} onChange={onLanguageChange}>
                     {
                         Object.keys(languages).map(language => {
-                            return <option key={language} value={language}>{languages[language]}</option>
+                            return <option key={language} value={language}>{languages[language]?.label}</option>
                         })
                     }
                 </select>

@@ -17,17 +17,18 @@ export const run = (editorData) => {
                 },
                 body: JSON.stringify(editorData)
             });
+            dispatch(editorActions.setRunning(false));
 
             const data = await response.json();
             console.log(data);
-            if (data.output) {
-                dispatch(editorActions.setOutput(data.output));
-                dispatch(editorActions.setSelectedTab('output'));
-                dispatch(editorActions.setRunning(false));
+            dispatch(editorActions.setOutput(data.output));
+            dispatch(editorActions.setSelectedTab('output'));
+            dispatch(alertActions.openSuccess("Success!"));
+            if (!data.error) {
                 dispatch(alertActions.openSuccess("Success!"));
+                dispatch(editorActions.setError(""));
             }
-            if (data.error) throw Error(data.error);
-            else dispatch(editorActions.setError(""));
+            else if (data.error) throw Error(data.error);
         } catch (error) {
             dispatch(alertActions.openError("Failed to run code!"));
             dispatch(editorActions.setSelectedTab('error'));

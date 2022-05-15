@@ -41,7 +41,10 @@ const getSpawnArgs = (file, lang) => {
         case "node":
             ret.push("node");
             break;
-        default: throw 'Language Unavailable for now : ' + lang;
+        case "java":
+            ret.push("java");
+            break;
+        default: throw Error('Language Unavailable for now : ' + lang);
     }
     ret.push([file]);
 
@@ -61,6 +64,8 @@ exports.run = (req, res) => {
         selectedLanguage = 'node',
         fileName
     } = req.body;
+
+    console.log(req.body);
 
     if (!fileName || !selectedLanguage) {
         return res.status(400).send({
