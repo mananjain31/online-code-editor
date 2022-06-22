@@ -20,6 +20,14 @@ const UserSchema = new mongoose.Schema({
         ],
         required: [true, "Email required"]
     },
+    createdOn: {
+        type: Date,
+        default: Date.now
+    },
+    updatedOn: {
+        type: Date,
+        default: Date.now
+    },
     password: {
         type: String,
         trim: true,
