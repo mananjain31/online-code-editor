@@ -94,12 +94,6 @@ export const EditorNav = () => {
                 }
             </span>
 
-            <ButtonTw
-                disabled={editor?.running}
-                className={`${editor.running ? 'bg-slate-700' : 'bg-primary'}`}
-                onClick={() => dispatch(run(editor))}
-            >Run</ButtonTw>
-
         </div>
     )
 }

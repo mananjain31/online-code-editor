@@ -6,12 +6,42 @@ const fs = require("fs");
 class RunningProcesses {
     constructor() {
         this.processes = {};
+        /*
+        codeId :  {
+            child,
+            output: [],
+            error: [],
+            dir
+        } */
+    }
+    isRunning(codeId) {
+        return !!(this.processes[codeId])
     }
     getOutputErrorAndDestruct(codeId) {
+        if (!codeId) throw new Error("codeId is required");
         const { output, child, error, dir } = this.processes[codeId];
-        fs.readdirSync(dir).forEach(fileName => fs.rmSync(path.join(dir, fileName)));
-        fs.rmdirSync(dir);
+        delete this.processes[codeId];
+        try {
+            fs.readdirSync(dir).forEach(fileName => fs.rmSync(path.join(dir, fileName)));
+            fs.rmdirSync(dir);
+        }
+        catch (err) {
+            // console.log(err);
+        }
         return { output: output.join(""), error: error.join(""), child };
+    }
+    killAndGetResults(codeId) {
+        if (!codeId) throw new Error("codeId is required");
+        // console.log()
+        console.log(codeId)
+        // console.log()
+        // // console.log(this.processes)
+        // console.log()
+        // console.log(this.processes[codeId])
+        // console.log()
+        const { child } = this.processes[codeId];
+        child.kill();
+        return this.getOutputErrorAndDestruct(codeId);
     }
     addProcess(codeId, child, dir) {
         this.processes[codeId] = {
@@ -52,9 +82,14 @@ const getSpawnArgs = (file, lang) => {
 }
 
 
-exports.run = (req, res) => {
+exports.generateCodeId = (req, res) => {
+    console.log("gen");
+    const codeId = uuidv4();
+    console.log('codeId', codeId);
+    res.status(200).send({ codeId });
+}
 
-    req.body.codeId = uuidv4();
+exports.run = (req, res) => {
 
     let {
         codeId = null,
@@ -65,7 +100,7 @@ exports.run = (req, res) => {
         fileName
     } = req.body;
 
-    console.log(req.body);
+    console.log("req.body", req.body);
 
     if (!fileName || !selectedLanguage) {
         return res.status(400).send({
@@ -107,13 +142,49 @@ exports.run = (req, res) => {
     });
 
     child.on('error', data => {
-        runningProcesses.appendError(codeId, data);
-        const { output, error, child } = runningProcesses.getOutputErrorAndDestruct(codeId);
-        res.json({ ...req.body, output: output, error });
+        try {
+            runningProcesses.appendError(codeId, data);
+            const { output, error, child } = runningProcesses.getOutputErrorAndDestruct(codeId);
+            res.status(200).json({ ...req.body, output: output, error });
+        } catch (err) {
+            // console.log(err);
+        }
     });
 
     child.on('exit', (code, signal) => {
-        const { output, child, error } = runningProcesses.getOutputErrorAndDestruct(codeId);
-        res.json({ ...req.body, output: output, error });
+        try {
+            const { output, child, error } = runningProcesses.getOutputErrorAndDestruct(codeId);
+            res.status(200).json({ ...req.body, output: output, error });
+        } catch (err) {
+            // console.log(err);
+        }
     });
-}       
+
+    const EXPIRATION_TIME = 20000; // in miliseconds
+    // programs terminates after EXPIRATION_TIME miliseconds if the code takes up too much time to be executed
+    setTimeout(function () {
+        req.params.codeId = codeId;
+        if (runningProcesses.isRunning(codeId))
+            stop(req, res);
+        else if (!res.headersSent)
+            res.json({ stopped: true });
+    }, EXPIRATION_TIME);
+
+}
+
+const stop = (req, res) => {
+    try {
+        const { codeId } = req.params;
+        console.log();
+        console.log("stop controller codeId", codeId);
+        console.log();
+
+        if (!codeId) return res.status(400).send({ message: "Invalid Request" });
+        const { output, child, error } = runningProcesses.killAndGetResults(codeId);
+        res.status(200).json({ error: "Program was stopped manually or it was taking too long to exit." });
+    }
+    catch (e) {
+        // console.log(e);
+    }
+};
+exports.stop = stop;

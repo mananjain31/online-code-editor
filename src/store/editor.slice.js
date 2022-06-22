@@ -33,6 +33,9 @@ export const editorSlice = createSlice({
     name: 'editor',
     initialState,
     reducers: {
+        setCodeId(state, action) {
+            state.codeId = action.payload;
+        },
         setCode(state, action) {
             const code = formatCode(action.payload, state.selectedLanguage);
             state.code = code;

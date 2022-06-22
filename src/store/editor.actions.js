@@ -10,17 +10,23 @@ export const run = (editorData) => {
 
         try {
 
+            const { codeId } = await (await fetch(`${SERVER_URL}/codes/codeId`)).json();
+            dispatch(editorActions.setCodeId(codeId));
             const response = await fetch(`${SERVER_URL}/codes/run`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(editorData)
+                body: JSON.stringify({
+                    ...editorData,
+                    codeId
+                })
             });
             dispatch(editorActions.setRunning(false));
 
             const data = await response.json();
             console.log(data);
+            if (data.stopped) return;
             dispatch(editorActions.setOutput(data.output));
             dispatch(editorActions.setSelectedTab('output'));
             dispatch(alertActions.openSuccess("Success!"));
@@ -47,6 +53,25 @@ export const run = (editorData) => {
         //     dispatch(alertActions.openError(error))
         //     return false;
         // }
+        return true;
+    }
+}
+
+export const stop = codeId => {
+    return async dispatch => {
+        dispatch(alertActions.openInfo("Stopping..."));
+        const response = await fetch(`${SERVER_URL}/codes/stop/${codeId}`, {
+            method: 'DELETE',
+        });
+        dispatch(editorActions.setRunning(false));
+
+        const data = await response.json();
+        console.log("data", data);
+        const { error } = data;
+        dispatch(alertActions.openInfo("Stopped the code Execution!"));
+        dispatch(editorActions.setSelectedTab('error'));
+        dispatch(editorActions.setError(error));
+
         return true;
     }
 }
