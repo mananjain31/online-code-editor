@@ -6,10 +6,9 @@ export const EditorMain = () => {
     const { code } = useSelector(state => state.editor)
     const dispatch = useDispatch();
     const updateCode = ev => {
-        const { value } = ev.target
+        let { value } = ev.target
         dispatch(editorActions.setCode(value))
     }
-
     return (
         <textarea
             placeholder='Cook Your Recipe here ... 👨🏽‍🍳'

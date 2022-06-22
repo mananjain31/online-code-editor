@@ -1,6 +1,7 @@
 import { Add, ContentCopy, Download, Save, Upload } from '@mui/icons-material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { AppContext } from '../App'
 import { copy } from '../helpers/copy'
 import { download } from '../helpers/download'
 import { upload } from '../helpers/upload'
@@ -8,10 +9,14 @@ import { alertActions } from '../store/alert.slice'
 import { run } from '../store/editor.actions'
 import { editorActions, languages } from '../store/editor.slice'
 import { ButtonTw } from './Buttons'
+import { ThemeSetter } from './ThemeSetter'
+import UserDropdown from './UserDropdown'
 
 export const EditorNav = () => {
 
     const { editor, user } = useSelector(state => state)
+
+    const { toggleLoginModal } = React.useContext(AppContext);
 
     const dispatch = useDispatch()
     const onLanguageChange = ev => {
@@ -45,6 +50,7 @@ export const EditorNav = () => {
         <div className='bg-nav-footer-bg px-desktop-x py-desktop-y flex  gap-2 flex-wrap items-center '>
 
             {/* <div className='flex flex-wrap items-center gap-2'> */}
+            <ThemeSetter />
 
             <ContentCopy titleAccess='Copy Code' className='cursor-pointer' onClick={onCopy} />
 
@@ -78,10 +84,19 @@ export const EditorNav = () => {
 
             <Add titleAccess='New File' className='cursor-pointer' onClick={openNewFile} />
 
+            <span className='sm:ml-auto'>
+                {
+                    user.loggedIn ? (
+                        <UserDropdown />
+                    ) : (
+                        <ButtonTw className="bg-secondary" onClick={toggleLoginModal}>Login</ButtonTw>
+                    )
+                }
+            </span>
 
             <ButtonTw
                 disabled={editor?.running}
-                className={`sm:ml-auto ${editor.running ? 'bg-slate-700' : 'bg-primary'}`}
+                className={`${editor.running ? 'bg-slate-700' : 'bg-primary'}`}
                 onClick={() => dispatch(run(editor))}
             >Run</ButtonTw>
 

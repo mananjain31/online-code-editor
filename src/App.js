@@ -18,7 +18,7 @@ function App() {
   const user = useSelector(state => state.user);
   const alert = useSelector(state => state.alert);
   const editor = useSelector(state => state.editor);
-  console.log(editor);
+  console.log(editor, user);
 
   const [loginModalOpen, setLoginModalOpen] = React.useState(false);
   const dispatch = useDispatch();
@@ -55,8 +55,7 @@ function App() {
         <Alert variant="filled" onClose={closeAlert} elevation={10} severity={alert.severity} key={Math.random()}>
           {alert.message}
         </Alert>
-      </Snackbar>
-
+      </Snackbar >
     </AppContext.Provider>
   );
 }
