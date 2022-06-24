@@ -38,7 +38,7 @@ const UserDropdown = () => {
                         }
                     </span>
                 </ButtonTw>
-                <GrowDropDown open={dropDownOpen} onClose={toggleDropdown} items={[
+                <GrowDropDown open={dropDownOpen} onClose={closeDropdwon} items={[
                     <ButtonTw className="w-full">View Profile</ButtonTw>,
                     <ButtonTw className="w-full">Saved Codes</ButtonTw>,
                     <ButtonTw onClick={handleLogout} className="w-full">Logout</ButtonTw>,

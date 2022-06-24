@@ -7,7 +7,7 @@ const GrowDropDown = (props) => {
     return (
         <div
             onClick={onClose}
-            className={`flex flex-col transition ease-in-out delay-150 overflow-y-hidden absolute top-full mt-2 gap-1 rounded items-stretch w-full`}>
+            className={`flex flex-col transition ease-in-out delay-150 overflow-y-hidden absolute top-full mt-2 gap-1 rounded items-stretch w-full ${!open && "pointer-events-none"}`}>
             {
                 items.map((item, idx) =>
                     <Grow in={open} key={`${idx} ${seed}`} timeout={500 + 100 * idx}>
