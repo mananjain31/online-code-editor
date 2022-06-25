@@ -1,17 +1,22 @@
 const mongoose = require('mongoose');
 const SavedCodeSchema = new mongoose.Schema({
+    fileName: {
+        type: String,
+        required: [true, "Must Specify the Code File Name"]
+    },
     code: {
         type: String,
-        required: [true, 'Must Specify The Code']
+        required: [true, 'Must Specify the Code']
     },
-    language: {
+    selectedLanguage: {
         type: String,
         enum: ['java', 'python3', 'node'],
-        required: [true, 'Must Specify The Language']
+        required: [true, 'Must Specify the Language']
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: [true, 'Must Specify the User']
     },
     createdAt: {
         type: Date,

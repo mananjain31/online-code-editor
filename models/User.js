@@ -33,11 +33,6 @@ const UserSchema = new mongoose.Schema({
         trim: true,
         required: [true, "Password required"]
     },
-    savedCodes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'SavedCode'
-    }]
-
 });
 
 

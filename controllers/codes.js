@@ -2,6 +2,9 @@ const { spawn } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const fs = require("fs");
+const SavedCode = require("../models/SavedCode");
+const { assert } = require("console");
+const User = require("../models/User");
 
 class RunningProcesses {
     constructor() {
@@ -188,3 +191,77 @@ const stop = (req, res) => {
     }
 };
 exports.stop = stop;
+
+// creates or updates
+exports.save = async (req, res) => {
+    try {
+        let { user } = req;
+        if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
+        const { code, fileName, selectedLanguage } = req.body;
+        const codeObj = { code, fileName, selectedLanguage, user };
+        try {
+            let error = await SavedCode.validate(codeObj)
+            assert(!error, error)
+            const result = await SavedCode.updateOne({ fileName, user }, codeObj, { runValidators: true, upsert: true })
+            const savedCode = await SavedCode.findOne({ fileName, user });
+            return res.status(201).json({
+                success: true,
+                message: "Code Saved",
+                savedCode,
+                result
+            })
+        } catch (error) {
+            return res.status(400).send({ success: false, message: error.message })
+        }
+
+    }
+    catch (error) {
+        return res.status(500).json({ success: false, message: "Intenal Server Error" });
+    }
+}
+
+exports.getCodes = async (req, res) => {
+    try {
+        let { user } = req;
+        if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
+        // select with "-" deselects those entries ("-user" means user will not be fetched into this array)
+        const savedCodes = await SavedCode.find({ user }).select("-code -user -__v");
+        console.log(savedCodes)
+        return res.status(200).json({ success: true, savedCodes })
+    }
+    catch (error) {
+        return res.status(500).json({ success: false, message: "Intenal Server Error" });
+    }
+}
+
+exports.getCodeById = async (req, res) => {
+    try {
+        let { user } = req;
+        if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
+        const savedCode = await SavedCode.findById(req.params.id).select("-__v");
+        if (!savedCode) throw Error("No Code of id " + req.params.id + " found");
+        return res.status(200).json({
+            success: true,
+            savedCode
+        })
+    }
+    catch (error) {
+        return res.status(404).json({ success: false, message: error.message });
+    }
+}
+
+exports.deleteCode = async (req, res) => {
+    try {
+        let { user } = req;
+        if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
+        const deletedCode = await SavedCode.findByIdAndDelete(req.params.id)
+        if (!deletedCode) throw Error("No Code of id " + req.params.id + " found");
+        return res.status(200).json({
+            success: true,
+            message: "Code Deleted Succesfully"
+        })
+    }
+    catch (error) {
+        return res.status(404).json({ success: false, message: error.message });
+    }
+}
