@@ -6,7 +6,7 @@ import { copy } from '../helpers/copy'
 import { download } from '../helpers/download'
 import { upload } from '../helpers/upload'
 import { alertActions } from '../store/alert.slice'
-import { run } from '../store/editor.actions'
+import { run, save } from '../store/editor.actions'
 import { editorActions, languages } from '../store/editor.slice'
 import { ButtonTw } from './Buttons'
 import { ThemeSetter } from './ThemeSetter'
@@ -43,6 +43,10 @@ export const EditorNav = () => {
         copy(editor.code);
         dispatch(alertActions.openInfo("Code copied to clipboard"));
     }
+    const onSave = () => {
+        const { selectedLanguage, code, fileName } = editor;
+        dispatch(save({ selectedLanguage, code, fileName }));
+    }
 
 
 
@@ -61,8 +65,8 @@ export const EditorNav = () => {
             <Upload titleAccess='Upload Code' className='cursor-pointer' onClick={onUpload} />
 
             {
-                user.isLoggedIn ?
-                    <Save titleAccess='Save' className='cursor-pointer' />
+                user.loggedIn ?
+                    <Save titleAccess='Save' className='cursor-pointer' onClick={onSave} />
                     :
                     <span className='text-btn-default'>
                         <Save titleAccess='Login to Save' className='cursor-pointer' />

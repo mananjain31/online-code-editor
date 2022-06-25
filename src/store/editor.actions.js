@@ -75,3 +75,18 @@ export const stop = codeId => {
         return true;
     }
 }
+
+export const save = codeData => {
+    return async dispatch => {
+        const data = await (await fetch(`${SERVER_URL}/codes/save`, {
+            method: "PUT",
+            body: JSON.stringify(codeData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })).json()
+        if (!data.success) return dispatch(alertActions.openError(data.message));
+        dispatch(alertActions.openSuccess(data.message))
+        return true;
+    }
+}

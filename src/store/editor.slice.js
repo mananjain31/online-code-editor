@@ -18,6 +18,7 @@ export const languages = {
 
 
 const initialState = {
+    _id: null,
     codeId: null,
     running: false,
     code: '',
@@ -33,25 +34,16 @@ export const editorSlice = createSlice({
     name: 'editor',
     initialState,
     reducers: {
-        setCodeId(state, action) {
-            state.codeId = action.payload;
-        },
+        set_id(state, action) { state._id = action.payload },
+        setCodeId(state, action) { state.codeId = action.payload; },
         setCode(state, action) {
             const code = formatCode(action.payload, state.selectedLanguage);
             state.code = code;
         },
-        setInput(state, action) {
-            state.input = action.payload;
-        },
-        setOutput(state, action) {
-            state.output = action.payload;
-        },
-        setSelectedTab(state, action) {
-            state.selectedTab = action.payload;
-        },
-        setError(state, action) {
-            state.error = action.payload;
-        },
+        setInput(state, action) { state.input = action.payload; },
+        setOutput(state, action) { state.output = action.payload; },
+        setSelectedTab(state, action) { state.selectedTab = action.payload; },
+        setError(state, action) { state.error = action.payload; },
         setSelectedLanguage(state, action) {
             if (state.fileName && state.fileName.trim() !== '') {
                 state.fileName = state.fileName.split('.');
@@ -74,9 +66,7 @@ export const editorSlice = createSlice({
             state.fileName += '.' + languages[state.selectedLanguage].extension;
             state.fileName = state.fileName.replaceAll(" ", "");
         },
-        setRunning(state, action) {
-            state.running = !!action.payload;
-        }
+        setRunning(state, action) { state.running = !!action.payload; }
     }
 })
 
