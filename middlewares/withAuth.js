@@ -7,7 +7,7 @@ const withAuth = async function (req, res, next) {
     try {
         const decoded = jwt.verify(token, secret);
         console.log(decoded);
-        console.log(new Date(decoded.iat));
+        // console.log(new Date(decoded.iat));
         const { username } = decoded;
         req.user = await User.findOne({ username });
         next();

@@ -12,6 +12,7 @@ app.use(cookieParser());
 app.use(express.json())
 app.use(function (req, res, next) {
     console.log("----------REQUEST LOG---------");
+    console.log(new Date());
     console.log("req.method", req.method);
     console.log("req.url", req.url);
     console.log();
