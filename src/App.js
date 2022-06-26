@@ -10,6 +10,8 @@ import { updateEditorToLocalStorage } from './store/editor.slice';
 import { LoginSignupModal } from './components/LoginSignupModal';
 import { Alert, Slide, Snackbar } from '@mui/material';
 import { alertActions } from './store/alert.slice';
+import useToggle from './hooks/useToggle';
+import { SavedCodesModal } from './components/SavedCodesModal';
 
 export const AppContext = createContext();
 
@@ -20,18 +22,19 @@ function App() {
   const editor = useSelector(state => state.editor);
   console.log(editor, user);
 
-  const [loginModalOpen, setLoginModalOpen] = React.useState(false);
+  // const [loginModalOpen, setLoginModalOpen] = React.useState(false);
+  const [loginModalOpen, toggleLoginModal] = useToggle(false);
+  const [savedCodesModalOpen, toggleSavedCodesModal] = useToggle(false);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     updateUserToLocalStorage(user);
   }, [user]);
 
-  const toggleLoginModal = () => setLoginModalOpen(state => !state);
   const closeAlert = () => dispatch(alertActions.close())
 
   return (
-    <AppContext.Provider value={{ toggleLoginModal }}>
+    <AppContext.Provider value={{ toggleLoginModal, toggleSavedCodesModal }}>
       <Routes>
 
         <Route path="/" element={<LandingPage />} />
@@ -45,6 +48,7 @@ function App() {
 
       </Routes>
       <LoginSignupModal open={loginModalOpen} onClose={toggleLoginModal} />
+      {user.loggedIn && <SavedCodesModal open={savedCodesModalOpen} onClose={toggleSavedCodesModal} />}
 
       <Snackbar
         open={alert.open}

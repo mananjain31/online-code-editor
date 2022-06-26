@@ -4,6 +4,7 @@ import { Box } from '@mui/system';
 import React from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AppContext } from '../App';
 import { logoutUser } from '../store/user.actions';
 import { ButtonTw } from './Buttons'
 import GrowDropDown from './GrowDropDown';
@@ -11,13 +12,14 @@ import GrowDropDown from './GrowDropDown';
 const UserDropdown = () => {
 
     const user = useSelector(state => state.user);
-    const dispatch = useDispatch();
     const [dropDownOpen, setDropdownOpen] = useState(false);
+    const { toggleSavedCodesModal } = React.useContext(AppContext)
+
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
         dispatch(logoutUser());
     }
-
     const toggleDropdown = () => setDropdownOpen(state => !state);
     const closeDropdwon = () => setDropdownOpen(false);
 
@@ -40,7 +42,7 @@ const UserDropdown = () => {
                 </ButtonTw>
                 <GrowDropDown open={dropDownOpen} onClose={closeDropdwon} items={[
                     <ButtonTw className="w-full">View Profile</ButtonTw>,
-                    <ButtonTw className="w-full">Saved Codes</ButtonTw>,
+                    <ButtonTw className="w-full" onClick={toggleSavedCodesModal}>Saved Codes</ButtonTw>,
                     <ButtonTw onClick={handleLogout} className="w-full">Logout</ButtonTw>,
                 ]} />
             </span>

@@ -29,6 +29,9 @@ export const userSlice = createSlice({
       }
       return state;
     },
+    setSavedCodes(state, action) {
+      state.savedCodes = action.payload || [];
+    }
   }
 })
 

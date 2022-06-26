@@ -43,6 +43,7 @@ export const EditorMain = () => {
     }
     return (
         <textarea
+            spellCheck="false"
             placeholder='Cook Your Recipe here ... 👨🏽‍🍳'
             className='bg-editor-bg flex-1 px-desktop-x py-desktop-y outline-none font-editor font-extrabold'
             value={code}
