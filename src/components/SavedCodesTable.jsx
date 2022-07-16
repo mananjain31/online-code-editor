@@ -39,9 +39,6 @@ const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
                             <TableCell align="right"
                                 style={{ fontWeight: "bolder" }}
                             >Updated at</TableCell>
-                            <TableCell align="right"
-                                style={{ fontWeight: "bolder" }}
-                            >Created at</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -61,7 +58,6 @@ const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
                                         <TableCell align="right">{row.selectedLanguage}</TableCell>
                                         <TableCell align="right"><IconButton onClick={ev => handleDelete(ev, row)}><Delete /></IconButton></TableCell>
                                         <TableCell align="right">{new Date(row.updatedAt).toLocaleString()}</TableCell>
-                                        <TableCell align="right">{new Date(row.createdAt).toLocaleString()}</TableCell>
                                     </TableRow >
                                 ))
                         }
