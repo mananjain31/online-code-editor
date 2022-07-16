@@ -198,11 +198,12 @@ exports.save = async (req, res) => {
         let { user } = req;
         if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
         const { code, fileName, selectedLanguage } = req.body;
+        const updatedAt = Date.now();
         const codeObj = { code, fileName, selectedLanguage, user };
         try {
             let error = await SavedCode.validate(codeObj)
             assert(!error, error)
-            const result = await SavedCode.updateOne({ fileName, user }, codeObj, { runValidators: true, upsert: true })
+            const result = await SavedCode.updateOne({ fileName, user, updatedAt }, codeObj, { runValidators: true, upsert: true })
             const savedCode = await SavedCode.findOne({ fileName, user });
             return res.status(201).json({
                 success: true,
@@ -225,7 +226,7 @@ exports.getCodes = async (req, res) => {
         let { user } = req;
         if (!user) return res.send(401).json({ success: false, message: "Unauthorized" })
         // select with "-" deselects those entries ("-user" means user will not be fetched into this array)
-        const savedCodes = await SavedCode.find({ user }).select("-code -user -__v");
+        const savedCodes = await SavedCode.find({ user }).sort("-updatedAt").select("-code -user -__v");
         console.log(savedCodes)
         return res.status(200).json({ success: true, savedCodes })
     }

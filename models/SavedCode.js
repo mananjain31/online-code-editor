@@ -18,10 +18,6 @@ const SavedCodeSchema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'Must Specify the User']
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     updatedAt: {
         type: Date,
         default: Date.now
