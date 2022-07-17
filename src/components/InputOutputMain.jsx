@@ -22,7 +22,7 @@ export const InputOutputMain = () => {
             placeholder={selectedTab === 'input' ? 'Specify Input here' : selectedTab === 'output' ? 'Output will be shown here' : 'No errors'}
             value={selectedTab === "input" ? input : selectedTab === 'output' ? output : error}
             onChange={onChange}
-            readOnly={selectedTab === 'output'}
+            readOnly={selectedTab !== 'input'}
         ></textarea >
     )
 }
