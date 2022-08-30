@@ -9,7 +9,6 @@ import { alertActions } from '../store/alert.slice'
 import { run, save } from '../store/editor.actions'
 import { editorActions, languages } from '../store/editor.slice'
 import { ButtonTw } from './Buttons'
-import { ThemeSetter } from './ThemeSetter'
 import UserDropdown from './UserDropdown'
 
 export const EditorNav = () => {
@@ -51,10 +50,7 @@ export const EditorNav = () => {
 
 
     return (
-        <div className='bg-nav-footer-bg px-desktop-x py-desktop-y flex  gap-2 flex-wrap items-center '>
-
-            {/* <div className='flex flex-wrap items-center gap-2'> */}
-            <ThemeSetter />
+        <div className='bg-nav-bg px-desktop-x py-desktop-y flex  gap-2 flex-wrap items-center '>
 
             <ContentCopy titleAccess='Copy Code' className='cursor-pointer' onClick={onCopy} />
 

@@ -1,11 +1,9 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        "editor": ['Source Code Pro', 'monospace'],
+        editor: ["Source Code Pro", "monospace"],
       },
       padding: {
         "desktop-x": "1.2rem",
@@ -13,14 +11,14 @@ module.exports = {
       },
       colors: {
         "ip-op-bg": "#202249",
-        "fg": "#dadada",
+        fg: "#dadada",
         "editor-bg": "#282A59",
-        "nav-footer-bg": "#232652",
-        "primary": "#3139F5",
-        "secondary": "#B55F99",
+        "nav-bg": "#232652",
+        primary: "#3139F5",
+        secondary: "#B55F99",
         "btn-default": "#4d4f8e",
-      }
+      },
     },
   },
   plugins: [],
-}
+};
