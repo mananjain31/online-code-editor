@@ -1,16 +1,16 @@
 require("dotenv").config();
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const { default: mongoose } = require('mongoose');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const { default: mongoose } = require("mongoose");
 const path = require("path");
 const app = express();
-const PORT = 8000;
-const auth = require('./routers/auth');
-const codes = require('./routers/codes');
+const PORT = process.env.PORT;
+const auth = require("./routers/auth");
+const codes = require("./routers/codes");
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(cookieParser());
-app.use(express.json())
+app.use(express.json());
 app.use(function (req, res, next) {
     console.log("----------REQUEST LOG---------");
     console.log(new Date());
@@ -23,18 +23,19 @@ app.use(function (req, res, next) {
     console.log("-----------REQUEST LOG ENDS---");
     console.log();
     next();
-})
-app.use('/api/v1/auth', auth);
-app.use('/api/v1/codes', codes)
+});
+app.use("/api/v1/auth", auth);
+app.use("/api/v1/codes", codes);
 
 const main = async () => {
     try {
         await mongoose.connect(process.env.MONGO_DATABASE_URI);
-        app.listen(PORT, err => console.log(err ? err : `App listening at http://localhost:${PORT}`));
+        app.listen(PORT, err =>
+            console.log(err ? err : `App listening at http://localhost:${PORT}`)
+        );
+    } catch (err) {
+        console.log(err);
     }
-    catch (err) {
-        console.log(err)
-    }
-}
+};
 
 main();

@@ -1,8 +1,10 @@
+const fs = require("fs");
+const path = require("path");
 class RunningProcesses {
-
     static instance;
-    static getInstance(){
-        if (!RunningProcesses.instance) RunningProcesses.instance = new RunningProcesses();
+    static getInstance() {
+        if (!RunningProcesses.instance)
+            RunningProcesses.instance = new RunningProcesses();
         return RunningProcesses.instance;
     }
 
@@ -16,30 +18,30 @@ class RunningProcesses {
             dir
         } */
     }
-    static getInstance(){
-
+    static getInstance() {
         return new RunningProcesses();
     }
     isRunning(codeId) {
-        return !!(this.processes[codeId])
+        return !!this.processes[codeId];
     }
     getOutputErrorAndDestruct(codeId) {
         if (!codeId) throw new Error("codeId is required");
         const { output, child, error, dir } = this.processes[codeId];
         delete this.processes[codeId];
         try {
-            fs.readdirSync(dir).forEach(fileName => fs.rmSync(path.join(dir, fileName)));
+            fs.readdirSync(dir).forEach(fileName =>
+                fs.rmSync(path.join(dir, fileName))
+            );
             fs.rmdirSync(dir);
-        }
-        catch (err) {
-            // console.log(err);
+        } catch (err) {
+            console.log(err);
         }
         return { output: output.join(""), error: error.join(""), child };
     }
     killAndGetResults(codeId) {
         if (!codeId) throw new Error("codeId is required");
         // console.log()
-        console.log(codeId)
+        console.log(codeId);
         // console.log()
         // // console.log(this.processes)
         // console.log()
@@ -54,7 +56,7 @@ class RunningProcesses {
             child,
             output: [],
             error: [],
-            dir
+            dir,
         };
     }
     appendOutput(codeId, data) {
