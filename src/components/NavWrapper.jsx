@@ -1,14 +1,15 @@
-import React from 'react'
+import React from "react";
 
 export const NavWrapper = ({ children, className, ...props }) => {
     return (
-        <div className={` 
+        <div
+            className={` 
             py-desktop-y px-desktop-x
             flex justify-between items-center flex-wrap gap-2
-            ${className}`} {...props}>
-
+            ${className}`}
+            {...props}
+        >
             {children}
-
         </div>
-    )
-}
+    );
+};

@@ -1,7 +1,16 @@
-import { Delete } from '@mui/icons-material'
-import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material'
-import React from 'react'
-import { ButtonTw } from './Buttons';
+import { Delete } from "@mui/icons-material";
+import {
+    IconButton,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
+import React from "react";
 
 const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
     const [page, setPage] = React.useState(0);
@@ -11,7 +20,7 @@ const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
         setPage(newPage);
     };
 
-    const handleChangeRowsPerPage = (event) => {
+    const handleChangeRowsPerPage = event => {
         setRowsPerPage(event.target.value);
         setPage(0);
     };
@@ -19,53 +28,74 @@ const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
     const handleDelete = (ev, savedCode) => {
         ev.stopPropagation();
         deleteCode(savedCode);
-    }
+    };
 
     return (
         <>
             <TableContainer component={Paper} sx={{ maxHeight: 410 }}>
-                <Table stickyHeader >
+                <Table stickyHeader>
                     <TableHead>
                         <TableRow>
+                            <TableCell style={{ fontWeight: "bolder" }}>
+                                File Name
+                            </TableCell>
                             <TableCell
+                                align="right"
                                 style={{ fontWeight: "bolder" }}
-                            >File Name</TableCell>
-                            <TableCell align="right"
-                                style={{ fontWeight: "bolder" }}
-                            >Language</TableCell>
-                            <TableCell align="right"
+                            >
+                                Language
+                            </TableCell>
+                            <TableCell
+                                align="right"
                                 style={{ fontWeight: "bolder" }}
                             ></TableCell>
-                            <TableCell align="right"
+                            <TableCell
+                                align="right"
                                 style={{ fontWeight: "bolder" }}
-                            >Updated at</TableCell>
+                            >
+                                Updated at
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {
-                            rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row) => (
-                                    <TableRow
-                                        key={row._id}
-                                        hover
-                                        sx={{ cursor: "pointer" }}
-                                        onClick={() => openCode(row)}
-                                    >
-                                        <TableCell component="th" scope="row">
-                                            {row.fileName}
-                                        </TableCell>
-                                        <TableCell align="right">{row.selectedLanguage}</TableCell>
-                                        <TableCell align="right"><IconButton onClick={ev => handleDelete(ev, row)}><Delete /></IconButton></TableCell>
-                                        <TableCell align="right">{new Date(row.updatedAt).toLocaleString()}</TableCell>
-                                    </TableRow >
-                                ))
-                        }
+                        {rows
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map(row => (
+                                <TableRow
+                                    key={row._id}
+                                    hover
+                                    sx={{ cursor: "pointer" }}
+                                    onClick={() => openCode(row)}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {row.fileName}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {row.selectedLanguage}
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        <IconButton
+                                            onClick={ev =>
+                                                handleDelete(ev, row)
+                                            }
+                                        >
+                                            <Delete />
+                                        </IconButton>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {new Date(
+                                            row.updatedAt
+                                        ).toLocaleString()}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>
             <footer>
-
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 15]}
                     component={Paper}
@@ -77,7 +107,7 @@ const SavedCodesTable = ({ rows, openCode, deleteCode }) => {
                 />
             </footer>
         </>
-    )
-}
+    );
+};
 
-export default SavedCodesTable  
+export default SavedCodesTable;
