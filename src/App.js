@@ -51,7 +51,7 @@ function App() {
         >
             <ThemeProvider theme={muiTheme}>
                 <Routes>
-                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/" element={<EditorPage />} />
                     <Route exact path="/editor" element={<EditorPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/signup" element={<SignupPage />} />
