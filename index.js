@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 const { default: mongoose } = require("mongoose");
 const path = require("path");
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 const auth = require("./routers/auth");
 const codes = require("./routers/codes");
 
