@@ -4,11 +4,18 @@ const cookieParser = require("cookie-parser");
 const { default: mongoose } = require("mongoose");
 const path = require("path");
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 const auth = require("./routers/auth");
 const codes = require("./routers/codes");
+const cors = require("cors");
+const { existsSync } = require("fs");
+app.use(cors());
+
+console.log(existsSync(path.join(__dirname, "build")));
 
 app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static(path.join(__dirname, "dist")));
+
 app.use(cookieParser());
 app.use(express.json());
 app.use(function (req, res, next) {
