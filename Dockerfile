@@ -7,5 +7,5 @@ ENV PORT $PORT
 EXPOSE $PORT
 RUN yarn install
 ADD . .
-CMD ["yarn", "build"] 
+RUN yarn build 
 CMD ["yarn", "start"]
