@@ -1,70 +1,96 @@
-import { ContentCopy, Download, Upload } from '@mui/icons-material'
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { copy } from '../helpers/copy'
-import { download } from '../helpers/download'
-import { upload } from '../helpers/upload'
-import { alertActions } from '../store/alert.slice'
-import { editorActions } from '../store/editor.slice'
-import { ButtonTw } from './Buttons'
-import { NavWrapper } from './NavWrapper'
+import { ContentCopy, Download, Upload } from "@mui/icons-material";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { copy } from "../helpers/copy";
+import { download } from "../helpers/download";
+import { upload } from "../helpers/upload";
+import { alertActions } from "../store/alert.slice";
+import { editorActions } from "../store/editor.slice";
+import { ButtonTw } from "./Buttons";
+import { NavWrapper } from "./NavWrapper";
+import { RunAndStop } from "./RunAndStop";
 
 export const InputOutputNav = () => {
-
-    const editor = useSelector(state => state.editor)
-    const dispatch = useDispatch()
+    const editor = useSelector(state => state.editor);
+    const dispatch = useDispatch();
 
     const onDownload = () => {
-        download(
-            editor[editor.selectedTab]
-            ,
-            editor.selectedTab + ".txt"
-        )
-    }
+        download(editor[editor.selectedTab], editor.selectedTab + ".txt");
+    };
     const onUpload = () => {
         upload(content => {
             dispatch(editorActions.setInput(content));
             dispatch(editorActions.setSelectedTab("input"));
         });
-    }
+    };
     const onCopy = () => {
         copy(editor[editor.selectedTab]);
-        dispatch(alertActions.openInfo(`${editor.selectedTab} copied to clipboard`));
-    }
-
+        dispatch(
+            alertActions.openInfo(`${editor.selectedTab} copied to clipboard`)
+        );
+    };
 
     return (
-        <NavWrapper>
-
+        <NavWrapper className="justify-start">
             {/* Tabs */}
-            <div className='flex items-center gap-2 flex-wrap'>
+            <div className="flex items-center gap-2 flex-wrap">
                 <ButtonTw
-                    className={`${editor.selectedTab === 'input' ? 'bg-inherit' : ''}`}
-                    onClick={() => dispatch(editorActions.setSelectedTab('input'))}
-                > Input</ButtonTw>
+                    className={`${
+                        editor.selectedTab === "input" ? "bg-inherit" : ""
+                    }`}
+                    onClick={() =>
+                        dispatch(editorActions.setSelectedTab("input"))
+                    }
+                >
+                    {" "}
+                    Input
+                </ButtonTw>
                 <ButtonTw
-                    className={`${editor.selectedTab === 'output' ? 'bg-inherit' : ''}`}
-                    onClick={() => dispatch(editorActions.setSelectedTab('output'))}
-                >Output</ButtonTw>
+                    className={`${
+                        editor.selectedTab === "output" ? "bg-inherit" : ""
+                    }`}
+                    onClick={() =>
+                        dispatch(editorActions.setSelectedTab("output"))
+                    }
+                >
+                    Output
+                </ButtonTw>
                 <ButtonTw
-                    className={`${editor.selectedTab === 'error' ? 'bg-inherit' : ''}`}
-                    onClick={() => dispatch(editorActions.setSelectedTab('error'))}
-                >Error</ButtonTw>
+                    className={`${
+                        editor.selectedTab === "error" ? "bg-inherit" : ""
+                    }`}
+                    onClick={() =>
+                        dispatch(editorActions.setSelectedTab("error"))
+                    }
+                >
+                    Error
+                </ButtonTw>
+            </div>
+
+            <div className="flex gap-2">
+                <RunAndStop />
             </div>
 
             {/* Icons */}
-            <div className='flex gap-2  '>
+            <div className="flex gap-2">
+                <ContentCopy
+                    titleAccess="Copy"
+                    className="cursor-pointer"
+                    onClick={onCopy}
+                />
 
-                <ContentCopy titleAccess='Copy' className='cursor-pointer' onClick={onCopy} />
+                <Download
+                    titleAccess="Download"
+                    className="cursor-pointer"
+                    onClick={onDownload}
+                />
 
-
-                <Download titleAccess='Download' className='cursor-pointer' onClick={onDownload} />
-
-
-                <Upload titleAccess='Upload Input' className='cursor-pointer' onClick={onUpload} />
-
+                <Upload
+                    titleAccess="Upload Input"
+                    className="cursor-pointer"
+                    onClick={onUpload}
+                />
             </div>
-
-        </NavWrapper >
-    )
-}
+        </NavWrapper>
+    );
+};

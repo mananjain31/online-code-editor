@@ -3,6 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const themes = [
     {
         // default theme
+        ipOpBg: "rgb(2,12,25)",
+        fg: "#f0f0f0",
+        editorBg: "rgb(6,21,38)",
+        navBg: "rgb(3,14,25)",
+        primary: "rgb(70,120,200)",
+        secondary: "rgb(121,89,188)",
+        btnDefault: "rgb(10,40,64)",
+    },
+    {
         ipOpBg: "#202249",
         fg: "#dadada",
         editorBg: "#282a59",
