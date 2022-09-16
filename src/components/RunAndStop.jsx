@@ -21,21 +21,12 @@ export const RunAndStop = () => {
     };
 
     return (
-        <span className="flex">
-            <Grow in={editor.running} timeout={1000}>
-                <span>
-                    <ButtonTw onClick={onStop}>Stop</ButtonTw>
-                </span>
-            </Grow>
-
-            <ButtonTw
-                disabled={editor?.running}
-                className={editor.running && "bg-slate-700"}
-                style={editor.running ? {} : { background: styles.primary }}
-                onClick={onRun}
-            >
-                Run
-            </ButtonTw>
-        </span>
+        <ButtonTw
+            className="w-12"
+            style={{ background: styles.primary }}
+            onClick={editor.running ? onStop : onRun}
+        >
+            {editor.running ? "Stop" : "Run"}
+        </ButtonTw>
     );
 };

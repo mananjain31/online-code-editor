@@ -31,9 +31,30 @@ export const InputOutputNav = () => {
     };
 
     return (
-        <NavWrapper className="justify-start">
+        <NavWrapper>
             {/* Tabs */}
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center gap-2">
+                <ContentCopy
+                    titleAccess="Copy"
+                    className="cursor-pointer"
+                    onClick={onCopy}
+                />
+
+                <Download
+                    titleAccess="Download"
+                    className="cursor-pointer"
+                    onClick={onDownload}
+                />
+
+                <Upload
+                    titleAccess="Upload Input"
+                    className="cursor-pointer"
+                    onClick={onUpload}
+                />
+                <RunAndStop />
+            </div>
+
+            <span className="flex gap-2 items-center">
                 <ButtonTw
                     className={`${
                         editor.selectedTab === "input" ? "bg-inherit" : ""
@@ -42,7 +63,6 @@ export const InputOutputNav = () => {
                         dispatch(editorActions.setSelectedTab("input"))
                     }
                 >
-                    {" "}
                     Input
                 </ButtonTw>
                 <ButtonTw
@@ -65,32 +85,7 @@ export const InputOutputNav = () => {
                 >
                     Error
                 </ButtonTw>
-            </div>
-
-            <div className="flex gap-2">
-                <RunAndStop />
-            </div>
-
-            {/* Icons */}
-            <div className="flex gap-2">
-                <ContentCopy
-                    titleAccess="Copy"
-                    className="cursor-pointer"
-                    onClick={onCopy}
-                />
-
-                <Download
-                    titleAccess="Download"
-                    className="cursor-pointer"
-                    onClick={onDownload}
-                />
-
-                <Upload
-                    titleAccess="Upload Input"
-                    className="cursor-pointer"
-                    onClick={onUpload}
-                />
-            </div>
+            </span>
         </NavWrapper>
     );
 };
