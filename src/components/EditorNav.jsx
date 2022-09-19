@@ -7,7 +7,8 @@ import { download } from "../helpers/download";
 import { upload } from "../helpers/upload";
 import { alertActions } from "../store/alert.slice";
 import { save } from "../store/editor.actions";
-import { editorActions, languages } from "../store/editor.slice";
+import { editorActions } from "../store/editor.slice";
+import { languages } from "../store/LanguageInfo";
 import { ButtonTw } from "./Buttons";
 import UserDropdown from "./UserDropdown";
 

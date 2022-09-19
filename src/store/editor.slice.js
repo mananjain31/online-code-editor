@@ -1,32 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { formatCode } from "../helpers/formatCode";
-
-export const languages = {
-    python3: {
-        label: "Python 3",
-        extension: "py",
-    },
-    node: {
-        label: "Nodejs",
-        extension: "js",
-    },
-    java: {
-        label: "Java",
-        extension: "java",
-    },
-};
+import { checkIfDriverCode, getDriverCode, languages } from "./LanguageInfo";
 
 const initialState = {
     _id: null,
     codeId: null,
     running: false,
-    code: "",
     input: "",
     output: "",
     selectedTab: "input",
     selectedLanguage: "python3",
-    fileName: "main.py",
+    fileName: "Main.py",
     error: "",
+    code: getDriverCode("python3", "Main.py"),
 };
 
 export const editorSlice = createSlice({
@@ -62,6 +48,17 @@ export const editorSlice = createSlice({
                 state.fileName = state.fileName.join(".");
             }
             state.fileName += "." + languages[action.payload].extension;
+
+            if (
+                state.code.trim() === "" ||
+                checkIfDriverCode(
+                    state.code,
+                    state.selectedLanguage,
+                    state.fileName
+                )
+            ) {
+                state.code = getDriverCode(action.payload, state.fileName);
+            }
 
             state.selectedLanguage = action.payload;
         },
