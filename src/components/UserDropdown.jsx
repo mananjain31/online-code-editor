@@ -41,7 +41,7 @@ const UserDropdown = () => {
                     open={dropDownOpen}
                     onClose={closeDropdwon}
                     items={[
-                        <ButtonTw className="w-full">View Profile</ButtonTw>,
+                        // <ButtonTw className="w-full">View Profile</ButtonTw>,
                         <ButtonTw
                             className="w-full"
                             onClick={toggleSavedCodesModal}
