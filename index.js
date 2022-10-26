@@ -8,10 +8,7 @@ const PORT = process.env.PORT || 8000;
 const auth = require("./routers/auth");
 const codes = require("./routers/codes");
 const cors = require("cors");
-const { existsSync } = require("fs");
 app.use(cors());
-
-console.log(existsSync(path.join(__dirname, "build")));
 
 app.use(express.static(path.join(__dirname, "build")));
 app.use(express.static(path.join(__dirname, "dist")));

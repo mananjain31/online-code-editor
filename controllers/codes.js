@@ -4,23 +4,14 @@ const path = require("path");
 const fs = require("fs");
 const SavedCode = require("../models/SavedCode");
 const { assert } = require("console");
-const User = require("../models/User");
 const runningProcesses = require("../utils/RunningProcesses");
 
 const getSpawnArgs = (file, lang) => {
     const ret = [];
-    switch (lang) {
-        case "python3":
-            ret.push("python3");
-            break;
-        case "node":
-            ret.push("node");
-            break;
-        case "java":
-            ret.push("java");
-            break;
-        default:
-            throw Error("Language Unavailable for now : " + lang);
+    if (["python3", "node", "java"].includes(lang)) {
+        ret.push(lang);
+    } else {
+        throw Error("Language Unavailable for now : " + lang);
     }
     ret.push([file]);
 
@@ -39,7 +30,6 @@ exports.run = (req, res) => {
         codeId = null,
         code = "",
         input = "",
-        output = "",
         selectedLanguage = "node",
         fileName,
     } = req.body;
